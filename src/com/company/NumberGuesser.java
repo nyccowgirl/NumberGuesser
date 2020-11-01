@@ -6,6 +6,7 @@ CS111B - Assignment 2A
  */
 
 import java.util.Scanner;
+import java.util.Random;
 
 public class NumberGuesser {
 
@@ -18,9 +19,6 @@ public class NumberGuesser {
 
 
 
-
-
-
     /**
      * The playOneGame method initiates a guessing game.
      */
@@ -28,12 +26,12 @@ public class NumberGuesser {
     public static void playOneGame() {
         int low = 1, high = 100, midpoint;
         char response;
-        Scanner input = new Scanner(System.in);
 
         System.out.println("Guess a number between 1 and 100.");
 
         do {
-            midpoint = getMidpoint(low, high);
+            midpoint = getRandomMidpoint(low, high);
+//            midpoint = getMidpoint(low, high);
             response = getUserResponseToGuess(midpoint);
 
             if (response == 'h') {
@@ -41,12 +39,8 @@ public class NumberGuesser {
             } else if (response == 'l') {
                 high = midpoint - 1;
             }
-
         } while (!(response == 'c'));
     }
-
-
-
 
 
 
@@ -62,34 +56,45 @@ public class NumberGuesser {
         do {
             System.out.print("Great! Do you want to play again? (y/n): ");
             playAgain = input.nextLine().charAt(0);
+            playAgain = Character.toLowerCase(playAgain);
 
-            if (!(playAgain == 'y' || playAgain == 'Y' || playAgain == 'n' || playAgain == 'N' )) {
+            if (!(playAgain == 'y' || playAgain == 'n')) {
                 System.out.println("Invalid input.");
             }
+        } while (!(playAgain == 'y' || playAgain == 'n'));
 
-        } while (!(playAgain == 'y' || playAgain == 'Y' || playAgain == 'n' || playAgain == 'N' ));
-
-        return (playAgain == 'y' || playAgain == 'Y' );
+        return (playAgain == 'y');
     }
-
-
-
 
 
 
     /**
-     * The getMidpoint method returns the midpoint, rounded down to integer, between two integers.
+     * The getRandomMidpoint method returns a random number between two integers.
      * @param low number on bottom of range
      * @param high number on top of range
-     * @return Midpoint, rounded down, between the low and high numbers
+     * @return Random number guess between low and high numbers
      */
 
-    public static int getMidpoint(int low, int high) {
-        return (low + high) / 2;
+    public static int getRandomMidpoint(int low, int high) {
+        int midpoint;
+        Random random = new Random();
+
+        midpoint = random.nextInt(high - low) + low;
+        return midpoint;
     }
 
 
 
+//    /**
+//     * The getMidpoint method returns the midpoint, rounded down to integer, between two integers.
+//     * @param low number on bottom of range
+//     * @param high number on top of range
+//     * @return Midpoint, rounded down, between the low and high numbers
+//     */
+//
+//    public static int getMidpoint(int low, int high) {
+//        return (low + high) / 2;
+//    }
 
 
 
@@ -108,19 +113,11 @@ public class NumberGuesser {
             System.out.print("Is it " + guess + "?");
             System.out.print("\t(h/l/c): ");
             response = input.nextLine().charAt(0);
-
-            if (response == 'H') {
-                response = 'h';
-            } else if (response == 'L') {
-                response = 'l';
-            } else if (response == 'C') {
-                response = 'c';
-            }
+            response = Character.toLowerCase(response);
 
             if (!(response == 'h' || response == 'l' || response == 'c')) {
                 System.out.println("Invalid input.");
             }
-
         } while (!(response == 'h' || response == 'l' || response == 'c'));
 
         return response;
@@ -129,6 +126,30 @@ public class NumberGuesser {
 
 
 /*
+WITH getRandomMidpoint method:
+Guess a number between 1 and 100.
+Is it 42?	(h/l/c): l
+Is it 3?	(h/l/c): h
+Is it 6?	(h/l/c): h
+Is it 20?	(h/l/c): l
+Is it 11?	(h/l/c): c
+Great! Do you want to play again? (y/n): y
+Guess a number between 1 and 100.
+Is it 92?	(h/l/c): l
+Is it 18?	(h/l/c): h
+Is it 41?	(h/l/c): h
+Is it 53?	(h/l/c): h
+Is it 56?	(h/l/c): h
+Is it 66?	(h/l/c): h
+Is it 79?	(h/l/c): l
+Is it 68?	(h/l/c): h
+Is it 76?	(h/l/c): h
+Is it 77?	(h/l/c): c
+Great! Do you want to play again? (y/n): n
+
+Process finished with exit code 0
+
+WITH getMidpoint method:
 Guess a number between 1 and 100.
 Is it 50?	(h/l/c): l
 Is it 25?	(h/l/c): l
