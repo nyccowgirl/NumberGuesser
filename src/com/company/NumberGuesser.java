@@ -79,7 +79,7 @@ public class NumberGuesser {
         int midpoint;
         Random random = new Random();
 
-        midpoint = random.nextInt(high - low) + low;
+        midpoint = random.nextInt(high + 1 - low) + low;
         return midpoint;
     }
 
